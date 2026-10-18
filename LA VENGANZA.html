@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regalo para Nixi ✨ - Gio.dev</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap');
+
+    :root {
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Outfit', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      user-select: none;
+      -webkit-user-select: none;
+      background: #0f172a;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .font-heading {
+      font-family: var(--font-heading);
+    }
+
+    .animated-bg {
+      background: linear-gradient(-45deg, #0f172a, #1e1b4b, #311042, #180b2d);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.35;
+      animation: floatUp 15s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(110vh) scale(0.5) rotate(0deg);
+        opacity: 0;
+      }
+      20% { opacity: 0.4; }
+      80% { opacity: 0.4; }
+      100% {
+        transform: translateY(-10vh) scale(1.2) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .bouncing-img {
+      position: fixed;
+      width: 85px;
+      height: 85px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      box-shadow: 0 0 20px rgba(236, 72, 153, 0.7), 0 0 30px rgba(56, 189, 248, 0.5);
+      pointer-events: none;
+      z-index: 5;
+      transition: border-color 0.3s;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 
+                  0 0 30px rgba(168, 85, 247, 0.15);
+    }
+
+    .neon-border-purple {
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.4), inset 0 0 10px rgba(168, 85, 247, 0.2);
+    }
+
+    .neon-border-pink {
+      box-shadow: 0 0 20px rgba(236, 72, 153, 0.4), inset 0 0 10px rgba(236, 72, 153, 0.2);
+    }
+
+    .screen-enter {
+      animation: slideInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .btn-gradient {
+      background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .btn-gradient:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 25px -5px rgba(236, 72, 153, 0.5),
+                  0 0 20px rgba(139, 92, 246, 0.4);
+    }
+
+    .btn-gradient:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    .btn-option {
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-option:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(236, 72, 153, 0.5);
+      transform: translateX(4px) scale(1.01);
+      box-shadow: 0 5px 15px rgba(236, 72, 153, 0.2);
+    }
+
+    .pulse-glow {
+      animation: pulseGlow 2s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        box-shadow: 0 0 15px rgba(236, 72, 153, 0.3), 0 0 30px rgba(139, 92, 246, 0.2);
+      }
+      100% {
+        box-shadow: 0 0 25px rgba(236, 72, 153, 0.6), 0 0 50px rgba(139, 92, 246, 0.5);
+      }
+    }
+
+    .shimmer-text {
+      background: linear-gradient(90deg, #38bdf8 0%, #a855f7 50%, #ec4899 100%);
+      background-size: 200% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: shine 3s linear infinite;
+    }
+
+    @keyframes shine {
+      to { background-position: 200% center; }
+    }
+  </style>
+</head>
+<body class="animated-bg min-h-screen text-slate-100 flex items-center justify-center p-4 relative overflow-hidden" oncontextmenu="return false;">
+
+  <div id="particles-container" class="absolute inset-0 pointer-events-none z-0"></div>
+  <div id="bouncing-container" class="fixed inset-0 pointer-events-none z-10"></div>
+
+  <div class="absolute -top-24 -left-24 w-80 h-80 bg-purple-600/30 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-24 -right-24 w-80 h-80 bg-pink-600/30 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+  <main class="w-full max-w-lg glass-card rounded-3xl p-6 sm:p-8 relative z-20 border border-white/20 transition-all duration-300">
+    
+    <div class="mb-6">
+      <div class="flex justify-between items-center mb-2 text-xs font-semibold tracking-wider text-slate-400 uppercase">
+        <span id="step-indicator" class="flex items-center gap-1.5 text-cyan-400">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          Paso 1 de 5
+        </span>
+        <span id="step-tag" class="text-pink-400 font-bold tracking-widest">Hugo 💛</span>
+      </div>
+      <div class="h-2 w-full bg-slate-900/60 rounded-full overflow-hidden p-0.5 border border-white/10">
+        <div id="progress-bar" class="h-full bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-pink-500 rounded-full transition-all duration-500 ease-out w-[20%] shadow-[0_0_12px_rgba(236,72,153,0.8)]"></div>
+      </div>
+    </div>
+
+    <section id="step-1" class="screen-enter space-y-6 text-center">
+      <div class="relative inline-block">
+        <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-purple-600 via-pink-500 to-amber-400 p-0.5 pulse-glow">
+          <div class="w-full h-full bg-slate-950/80 rounded-[22px] flex items-center justify-center text-3xl backdrop-blur-md">
+            ✨
+          </div>
+        </div>
+        <span class="absolute -top-2 -right-2 bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-black text-[10px] uppercase px-2 py-0.5 rounded-full shadow-lg">
+          Suerte
+        </span>
+      </div>
+
+      <div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-pink-400 tracking-tight">
+          REGALO PARA NIXI
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base mt-3 leading-relaxed">
+          Ya que haces webs he decidido crear una para tu regalo.
+        </p>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-300 text-left space-y-2">
+        <div class="flex items-center gap-2 font-semibold text-cyan-300">
+          <span>⚡</span> <span>¿Cómo funciona?</span>
+        </div>
+        <p class="leading-relaxed">
+          En cada paso obtendrás fragmentos de información. Mantén los ojos bien abiertos porque al final tendrás que unirlos todos.
+        </p>
+      </div>
+
+      <button onclick="goToStep(2)" class="btn-gradient w-full py-4 px-6 text-white font-bold text-base rounded-2xl shadow-lg flex items-center justify-center gap-3 group">
+        <span>¡Aceptar el Reto!</span>
+        <span class="group-hover:translate-x-1.5 transition-transform duration-200">🚀</span>
+      </button>
+    </section>
+
+    <section id="step-2" class="hidden screen-enter space-y-6">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 flex items-center justify-center font-bold text-sm">1</span>
+        <h2 class="text-xs uppercase font-bold tracking-widest text-purple-400">Calentamiento</h2>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-bold text-white leading-snug">
+          ¿Cuál es la regla de oro para un plan improvisado perfecto?
+        </h3>
+        <p class="text-xs text-slate-400 mt-1">Elige la opción que mejor te defina.</p>
+      </div>
+
+      <div class="space-y-3">
+        <button onclick="showWrong('¡VA AHORA EN SERIO!', 'Esa no era la opción correcta y lo sabes perfectamente... 😜', 2)" class="btn-option w-full p-4 rounded-2xl text-left text-slate-200 font-medium text-sm flex items-center justify-between group">
+          <span>🧭 Descubrir un sitio completamente nuevo</span>
+          <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-400">✨</span>
+        </button>
+        <button onclick="goToStep(3)" class="btn-option w-full p-4 rounded-2xl text-left text-slate-200 font-medium text-sm flex items-center justify-between group">
+          <span>🍃 Tiempo de calidad con el mejor, master y único Hugo</span>
+          <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-400">✨</span>
+        </button>
+        <button onclick="showWrong('¡VA AHORA EN SERIO!', 'Esa no era la opción correcta y lo sabes perfectamente... 😜', 2)" class="btn-option w-full p-4 rounded-2xl text-left text-slate-200 font-medium text-sm flex items-center justify-between group">
+          <span>🎲 Decidir el siguiente paso sobre la marcha</span>
+          <span class="opacity-0 group-hover:opacity-100 transition-opacity text-pink-400">✨</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="step-wrong" class="hidden screen-enter space-y-6 text-center py-4">
+      <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-pink-500 via-rose-500 to-amber-500 flex items-center justify-center text-5xl shadow-[0_0_40px_rgba(244,63,94,0.6)] animate-bounce">
+        🙄
+      </div>
+
+      <div class="space-y-2">
+        <h2 id="wrong-title" class="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-fuchsia-300 to-amber-300 tracking-tight leading-tight uppercase font-heading">
+          ¡VA AHORA EN SERIO!
+        </h2>
+        <p id="wrong-subtext" class="text-slate-300 text-sm sm:text-base font-medium">
+          Esa no era la opción correcta y lo sabes perfectamente... 😜
+        </p>
+      </div>
+
+      <button id="wrong-btn" onclick="goToStep(2)" class="btn-gradient w-full py-4 px-6 text-white font-bold text-base rounded-2xl shadow-xl flex items-center justify-center gap-2">
+        <span>Reconsiderar mi respuesta 🔄</span>
+      </button>
+    </section>
+
+    <section id="step-3" class="hidden screen-enter space-y-5">
+      <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/40 flex items-start gap-3 shadow-lg">
+        <span class="text-2xl animate-bounce">⚠️</span>
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-amber-300">¡Atención: Modo Reto Activado!</h4>
+          <p class="text-xs text-amber-100/90 mt-0.5 leading-relaxed">
+            A partir de aquí se revelan pistas reales. <b>Apunta o guarda lo que aparezca en pantalla.</b>
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex items-center gap-3 mb-1">
+          <span class="w-8 h-8 rounded-xl bg-pink-500/20 border border-pink-500/40 text-pink-300 flex items-center justify-center font-bold text-sm">2</span>
+          <h3 class="text-xs uppercase font-bold tracking-widest text-pink-400">Acertijo Lógico</h3>
+        </div>
+        <p class="text-lg font-bold text-white mt-2">
+          Completa la secuencia lógica:<br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-fuchsia-400 font-mono text-base block mt-1">
+            "Mujer al volante + Alta velocidad = ?"
+          </span>
+        </p>
+      </div>
+
+      <div id="q2-options" class="space-y-3">
+        <button onclick="revealPista1()" class="btn-option w-full p-4 rounded-2xl text-left text-slate-200 font-medium text-sm flex items-center justify-between group">
+          <span>☀️ Peligro constante</span>
+          <span class="text-cyan-400 group-hover:scale-125 transition-transform">➡️</span>
+        </button>
+        <button onclick="showWrong('NI DE COÑA', '¿De verdad crees que esa es la respuesta correcta? Vuelve a pensarlo... 😂', 3)" class="btn-option w-full p-4 rounded-2xl text-left text-slate-200 font-medium text-sm flex items-center justify-between group">
+          <span>🧩 Tranquilidad absoluta</span>
+          <span class="text-cyan-400 group-hover:scale-125 transition-transform">➡️</span>
+        </button>
+      </div>
+
+      <div id="pista1-container" class="hidden screen-enter space-y-4 pt-1">
+        <div class="p-5 rounded-2xl bg-slate-950/80 border border-purple-500/40 text-center space-y-2 relative overflow-hidden neon-border-purple">
+          <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-purple-500/20 rounded-full blur-xl"></div>
+          <span class="text-[10px] font-bold uppercase tracking-widest text-purple-300 bg-purple-950/80 px-3 py-1 rounded-full border border-purple-500/30 inline-block">
+            Pista 1 Obtenida
+          </span>
+          <div id="pista1-val" class="text-2xl font-mono font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-pink-400 tracking-wider">
+            --
+          </div>
+        </div>
+
+        <button onclick="goToStep(4)" class="btn-gradient w-full py-4 px-6 text-white font-bold text-base rounded-2xl shadow-lg flex items-center justify-center gap-2">
+          <span>Ir a la Pregunta 3</span>
+          <span>⚡</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="step-4" class="hidden screen-enter space-y-5">
+      <div>
+        <div class="flex items-center gap-3 mb-1">
+          <span class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 flex items-center justify-center font-bold text-sm">3</span>
+          <h2 class="text-xs uppercase font-bold tracking-widest text-cyan-400">Paso Final de Preguntas</h2>
+        </div>
+        <h3 class="text-lg font-bold text-white mt-2 leading-snug">
+          Si pudieras elegir una recompensa al terminar todo esto:
+        </h3>
+      </div>
+
+      <div id="q3-options" class="space-y-3">
+        <button onclick="showWrong('HUGO SIEMPRE GANA', 'Esa no es la respuesta correcta... ¡Inténtalo de nuevo! 😏', 4)" class="btn-option w-full p-4 rounded-2xl text-left text-slate-200 font-medium text-sm flex items-center justify-between group">
+          <span>☕ Un burn</span>
+          <span class="text-pink-400 group-hover:scale-125 transition-transform">🎁</span>
+        </button>
+        <button onclick="showWrong('HUGO SIEMPRE GANA', 'Esa no es la respuesta correcta... ¡Inténtalo de nuevo! 😏', 4)" class="btn-option w-full p-4 rounded-2xl text-left text-slate-200 font-medium text-sm flex items-center justify-between group">
+          <span>🗺️ Un detalle para el coche</span>
+          <span class="text-pink-400 group-hover:scale-125 transition-transform">🎁</span>
+        </button>
+        <button onclick="revealPista2()" class="btn-option w-full p-4 rounded-2xl text-left text-slate-200 font-medium text-sm flex items-center justify-between group">
+          <span>👀 La venganza de Hugo</span>
+          <span class="text-pink-400 group-hover:scale-125 transition-transform">🎁</span>
+        </button>
+      </div>
+
+      <div id="pista2-container" class="hidden screen-enter space-y-4 pt-1">
+        <div class="p-5 rounded-2xl bg-slate-950/80 border border-pink-500/40 text-center space-y-2 relative overflow-hidden neon-border-pink">
+          <div class="absolute -left-6 -bottom-6 w-20 h-20 bg-pink-500/20 rounded-full blur-xl"></div>
+          <span class="text-[10px] font-bold uppercase tracking-widest text-pink-300 bg-pink-950/80 px-3 py-1 rounded-full border border-pink-500/30 inline-block">
+            Pista 2 Obtenida 
+          </span>
+          <div id="pista2-val" class="text-2xl font-mono font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-fuchsia-300 to-cyan-300 tracking-wider">
+            --
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-gradient-to-r from-purple-900/40 to-slate-900/60 border-l-4 border-cyan-400 backdrop-blur-md">
+          <p class="text-xs text-slate-200 leading-relaxed">
+            💡 <b>Reflexión:</b> Ahora solo queda que pienses qué podría ser lo mostrado al final de cada pantalla...
+          </p>
+        </div>
+
+        <button onclick="goToStep(5)" class="btn-gradient w-full py-4 px-6 text-white font-bold text-base rounded-2xl shadow-lg flex items-center justify-center gap-2">
+          <span>Unir Pistas en el Paso Final</span>
+          <span>🔮</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="step-5" class="hidden screen-enter space-y-5 text-center">
+      <div>
+        <div class="w-12 h-12 mx-auto rounded-2xl bg-gradient-to-tr from-cyan-400 to-fuchsia-500 flex items-center justify-center text-xl shadow-lg mb-2">
+          🧩
+        </div>
+        <h2 class="text-2xl font-black text-white">Paso Final</h2>
+        <p class="text-xs text-slate-300 mt-1">Junta los 2 resultados obtenidos para revelar la ubicación final.</p>
+      </div>
+
+      <div id="assembly-form" class="space-y-4 pt-1">
+        <div class="space-y-3">
+          <div class="text-left">
+            <label class="block text-[11px] font-bold text-cyan-300 uppercase tracking-widest mb-1.5 ml-1">Pista 1</label>
+            <input type="text" id="input-pista1" placeholder="Pista 1" class="w-full px-4 py-3.5 bg-slate-950/70 border border-white/15 rounded-2xl text-center font-mono text-sm text-cyan-300 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all">
+          </div>
+          <div class="text-left">
+            <label class="block text-[11px] font-bold text-pink-300 uppercase tracking-widest mb-1.5 ml-1">Pista 2</label>
+            <input type="text" id="input-pista2" placeholder="Pista 2" class="w-full px-4 py-3.5 bg-slate-950/70 border border-white/15 rounded-2xl text-center font-mono text-sm text-pink-300 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/30 transition-all">
+          </div>
+        </div>
+
+        <button onclick="verificarYJuntar()" class="btn-gradient w-full py-4 px-6 text-white font-bold text-base rounded-2xl shadow-xl flex items-center justify-center gap-2">
+          <span>Unir y Comprobar</span>
+          <span>✨</span>
+        </button>
+
+        <button onclick="autoCompletar()" class="text-xs text-cyan-300/80 hover:text-cyan-200 underline decoration-cyan-400/40 transition-colors pt-1 block mx-auto flex items-center justify-center gap-1">
+          <span>✨ Unir automáticamente con destellos</span>
+        </button>
+      </div>
+
+      <div id="final-success" class="hidden screen-enter space-y-5 pt-1">
+        <div class="p-6 rounded-3xl bg-slate-950/90 border border-emerald-400/50 space-y-3 relative overflow-hidden shadow-[0_0_35px_rgba(16,185,129,0.3)]">
+          <div class="absolute -top-10 -right-10 w-28 h-28 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
+
+          <span class="inline-block bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full">
+            📍 Misión Cumplida - Coordenada Completa
+          </span>
+
+          <div id="coords-final-display" class="text-xl sm:text-2xl font-mono font-black shimmer-text tracking-wider py-1">
+            --
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 text-slate-200 text-xs sm:text-sm leading-relaxed italic">
+          "Todo estaba calculado desde el principio. Nos vemos en el punto de encuentro." 🗺️
+        </div>
+
+        <a id="btn-maps" href="#" target="_blank" rel="noopener noreferrer" class="btn-gradient w-full py-4 px-6 text-white font-bold text-base rounded-2xl shadow-xl flex items-center justify-center gap-2.5 group">
+          <svg class="w-5 h-5 text-amber-300 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          <span>Abrir Ubicación en Google Maps</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const img1 = 'https://cdn.discordapp.com/attachments/858640198408732672/1552862121006469191/a0c16d86-be58-40e7-8d1f-4478c18b8d1a.png?ex=6ab7270c&is=6ab5d58c&hm=9f0c7560b0343d3454e5ba5b8b86a6fa161f596bba764ba92be9311c984af14e&';
+    const img2 = 'https://cdn.discordapp.com/attachments/858640198408732672/1552862517213143070/76a198d4-b417-43dc-8ea3-886d196ebc92.png?ex=6ab7276a&is=6ab5d5ea&hm=cf506a956322039922b0889529fd3611410cf4da19ca6722dfc2a754a0360cd2&';
+
+    const misImagenes = [
+      img1, img2,
+      img1, img2,
+      img1, img2,
+      img1, img2
+    ];
+
+    document.onkeydown = function(e) {
+      if (e.keyCode === 123 || 
+         (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || 
+         (e.ctrlKey && e.keyCode === 85)) {
+        return false;
+      }
+    };
+
+    const pista1Decoded = atob("NDCwMTEnNTGuNCJO");
+    const pista2Decoded = atob("M7A0MScxNC42Ilc=");
+    const mapsUrlDecoded = atob("aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS9tYXBzP3E9NDAuMTk5NTU5LC0zLjY5ODQ5Ng==");
+
+    let currentStep = 1;
+
+    function goToStep(stepNumber) {
+      currentStep = stepNumber;
+
+      for (let i = 1; i <= 5; i++) {
+        const step = document.getElementById(`step-${i}`);
+        if (step) step.classList.add('hidden');
+      }
+      document.getElementById('step-wrong').classList.add('hidden');
+
+      const targetStep = document.getElementById(`step-${stepNumber}`);
+      if (targetStep) targetStep.classList.remove('hidden');
+
+      document.getElementById('step-indicator').innerHTML = `
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+        Paso ${stepNumber} de 5
+      `;
+      document.getElementById('progress-bar').style.width = `${(stepNumber / 5) * 100}%`;
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showWrong(title, subtext, returnStep) {
+      for (let i = 1; i <= 5; i++) {
+        const step = document.getElementById(`step-${i}`);
+        if (step) step.classList.add('hidden');
+      }
+
+      document.getElementById('wrong-title').innerText = title;
+      document.getElementById('wrong-subtext').innerText = subtext;
+
+      const wrongBtn = document.getElementById('wrong-btn');
+      wrongBtn.onclick = function() {
+        goToStep(returnStep);
+      };
+
+      document.getElementById('step-wrong').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function revealPista1() {
+      document.getElementById('q2-options').classList.add('hidden');
+      document.getElementById('pista1-val').innerText = pista1Decoded;
+      document.getElementById('pista1-container').classList.remove('hidden');
+    }
+
+    function revealPista2() {
+      document.getElementById('q3-options').classList.add('hidden');
+      document.getElementById('pista2-val').innerText = pista2Decoded;
+      document.getElementById('pista2-container').classList.remove('hidden');
+    }
+
+    function autoCompletar() {
+      document.getElementById('input-pista1').value = pista1Decoded;
+      document.getElementById('input-pista2').value = pista2Decoded;
+      verificarYJuntar();
+    }
+
+    function verificarYJuntar() {
+      const p1 = document.getElementById('input-pista1').value.trim();
+      const p2 = document.getElementById('input-pista2').value.trim();
+
+      if (!p1 || !p2) {
+        showWrong('¡FALTAN DATOS!', 'Escribe o pega ambas pistas para poder comprobar la ubicación.', 5);
+        return;
+      }
+
+      const fullCoords = `${p1} ${p2}`;
+      document.getElementById('coords-final-display').innerText = fullCoords;
+      document.getElementById('btn-maps').href = mapsUrlDecoded;
+
+      document.getElementById('assembly-form').classList.add('hidden');
+      document.getElementById('final-success').classList.remove('hidden');
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+        setTimeout(() => {
+          confetti({
+            particleCount: 50,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 }
+          });
+          confetti({
+            particleCount: 50,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 }
+          });
+        }, 250);
+      }
+    }
+
+    function initParticles() {
+      const container = document.getElementById('particles-container');
+      const particleCount = 18;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+
+        const size = Math.random() * 8 + 4;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 10 + 10;
+        const delay = Math.random() * 8;
+        const colors = ['#ec4899', '#a855f7', '#38bdf8', '#818cf8'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${left}%`;
+        particle.style.background = color;
+        particle.style.boxShadow = `0 0 10px ${color}`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `${delay}s`;
+
+        container.appendChild(particle);
+      }
+    }
+
+    function initBouncingImages() {
+      const container = document.getElementById('bouncing-container');
+      if (!container || !misImagenes || misImagenes.length === 0) return;
+
+      const elements = [];
+      const size = 85;
+      const count = misImagenes.length;
+
+      const cols = 4;
+      const rows = Math.ceil(count / cols);
+
+      misImagenes.forEach((src, idx) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.className = 'bouncing-img';
+        container.appendChild(img);
+
+        const col = idx % cols;
+        const row = Math.floor(idx / cols);
+
+        const zoneWidth = Math.max(0, (window.innerWidth - size) / cols);
+        const zoneHeight = Math.max(0, (window.innerHeight - size) / rows);
+
+        let x = col * zoneWidth + Math.random() * (zoneWidth * 0.8);
+        let y = row * zoneHeight + Math.random() * (zoneHeight * 0.8);
+
+        let vx = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 1.8 + 1.2);
+        let vy = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 1.8 + 1.2);
+
+        elements.push({ img, size, x, y, vx, vy });
+      });
+
+      function animate() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        elements.forEach(item => {
+          item.x += item.vx;
+          item.y += item.vy;
+
+          if (item.x <= 0) {
+            item.x = 0;
+            item.vx *= -1;
+          } else if (item.x + item.size >= width) {
+            item.x = width - item.size;
+            item.vx *= -1;
+          }
+
+          if (item.y <= 0) {
+            item.y = 0;
+            item.vy *= -1;
+          } else if (item.y + item.size >= height) {
+            item.y = height - item.size;
+            item.vy *= -1;
+          }
+
+          item.img.style.transform = `translate3d(${item.x}px, ${item.y}px, 0)`;
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    }
+
+    window.onload = function() {
+      initParticles();
+      initBouncingImages();
+    };
+  </script>
+</body>
+</html>
